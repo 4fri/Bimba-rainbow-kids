@@ -40,7 +40,7 @@ class MenuController extends Controller
     public function store(Request $request, Menu $menu)
     {
         $validator = Validator::make($request->all(), [
-            'category_name' => ['required', 'unique:menus,category_name'],
+            'category_name' => ['nullable', 'unique:menus,category_name'],
             'menu_name' => ['required', 'unique:menus,menu_name'],
             'icon_name' => ['required'],
             'route_name' => ['nullable', 'unique:menus,route_name'],
