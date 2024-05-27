@@ -43,7 +43,6 @@ class MenuController extends Controller
             'category_name' => ['nullable', 'unique:menus,category_name'],
             'menu_name' => ['required', 'unique:menus,menu_name'],
             'icon_name' => ['required'],
-            'route_name' => ['nullable', 'unique:menus,route_name'],
         ]);
 
         if ($validator->fails()) {

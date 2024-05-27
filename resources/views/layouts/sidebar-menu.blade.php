@@ -30,19 +30,14 @@
             @endif
 
             @php
-                if ($menu->route_name === null) {
-                    $dropdownHref = '#menuSidebar' . $menu->id;
-                    $dropDownId = 'menuSidebar' . $menu->id;
-                    $dataToogle = 'collapse';
-                } else {
-                    $dropdownHref = route($menu->route_name);
-                    $dataToogle = '';
-                }
+                // if ($menu->route_name === null) {
+                $dropdownHref = '#menuSidebar' . $menu->id;
+                $dropDownId = 'menuSidebar' . $menu->id;
             @endphp
 
             <ul class="list-unstyled">
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ $dropdownHref }}" data-bs-toggle="{{ $dataToogle }}">
+                    <a class="sidebar-link" href="{{ $dropdownHref }}" data-bs-toggle="collapse">
                         <svg class="svg-icon svg-icon-sm svg-icon-heavy me-2">
                             <use xlink:href="#{{ $menu->menu_icon }}"> </use>
                         </svg>{{ $menu->menu_name }}

@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('category_name')->nullable();
             $table->string('menu_name');
             $table->string('menu_icon', 50)->nullable();
-            $table->string('route_name', 50)->nullable();
             $table->timestamps();
         });
     }

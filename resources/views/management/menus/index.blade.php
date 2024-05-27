@@ -44,7 +44,6 @@
                                         <th>#</th>
                                         <th>Menu Name</th>
                                         <th>Icon Menu</th>
-                                        <th>Route Name</th>
                                         <th class="text-end">Action</th>
                                     </tr>
                                 </thead>
@@ -57,7 +56,6 @@
                                             <th scope="row">{{ $count++ }}</th>
                                             <td>{{ $menu->menu_name ?? 'Tidak ada' }}</td>
                                             <td>{{ $menu->menu_icon ?? 'Tidak ada' }}</td>
-                                            <td>{{ $menu->route_name ?? 'Tidak ada' }}</td>
                                             <td class="text-end">
                                                 <a class="btn btn-outline-info btn-sm" title="Edit"
                                                     href="{{ route('menus.edit', $menu->id) }}">
@@ -146,28 +144,6 @@
                             <div class="modal-body">
                                 <div class="mb-3">
                                     <div class="form-group">
-                                        <label for="menuName" class="col-form-label">Menu Name <span
-                                                class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" name="menu_name"
-                                            placeholder="Enter menu name..." id="menuName"
-                                            onchange="getMenuNameValue();">
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <div class="form-group">
-                                        <label for="menu" class="col-form-label">Menu Category <span
-                                                class="text-danger">*</span></label>
-                                        <div class="select2-container" id="selectContainer">
-                                            <select class="form-select select2" id="menuType"
-                                                onchange="getRouteName();">
-                                                <option value="category">Menu Category</option>
-                                                <option value="page">Menu Page</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <div class="form-group">
                                         <label for="categoryName" class="col-form-label">Category Name</label>
                                         <input type="text" class="form-control" name="category_name"
                                             placeholder="Enter category name..." id="categoryName">
@@ -175,17 +151,30 @@
                                 </div>
                                 <div class="mb-3">
                                     <div class="form-group">
+                                        <label for="menuName" class="col-form-label">Menu Name <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="menu_name"
+                                            placeholder="Enter menu name..." id="menuName">
+                                    </div>
+                                </div>
+                                {{-- <div class="mb-3">
+                                    <div class="form-group">
+                                        <label for="menu" class="col-form-label">Menu Category <span
+                                                class="text-danger">*</span></label>
+                                        <div class="select2-container" id="selectContainer">
+                                            <select class="form-select select2" id="menuType">
+                                                <option value="category">Menu Category</option>
+                                                <option value="page">Menu Page</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div> --}}
+                                <div class="mb-3">
+                                    <div class="form-group">
                                         <label for="iconName" class="col-form-label">Icon Name <span
                                                 class="text-danger">*</span></label>
                                         <input type="text" class="form-control" name="icon_name"
                                             placeholder="Example: portfolio-grid-1" id="iconName">
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <div class="form-group">
-                                        <label for="routeName" class="col-form-label">Route Name </label>
-                                        <input type="text" class="form-control" name="route_name"
-                                            placeholder="Enter route name..." id="routeName">
                                     </div>
                                 </div>
                             </div>
@@ -198,7 +187,7 @@
             </div>
         </div>
     </section>
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             getMenuNameValue();
             getRouteName();
@@ -243,5 +232,5 @@
                 }
             }
         }
-    </script>
+    </script> --}}
 @endsection
