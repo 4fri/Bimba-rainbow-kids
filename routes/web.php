@@ -29,16 +29,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     Route::middleware('role:super admin|admin')->group(function () {
-        Route::get('menus', [MenuController::class, 'index'])->name('menus.index')->middleware('permission:menus-index');
-        Route::post('menus', [MenuController::class, 'store'])->name('menus.store')->middleware('permission:menus-store');
-        Route::get('menus/{id}/edit', [MenuController::class, 'edit'])->name('menus.edit')->middleware('permission:menus-edit');
-        Route::put('menus/{id}', [MenuController::class, 'update'])->name('menus.update')->middleware('permission:menus-update');
-        Route::delete('menus/{id}', [MenuController::class, 'destroy'])->name('menus.destroy')->middleware('permission:menus-destroy');
+        Route::resource('menus', MenuController::class);
+        Route::resource('menu-parents', MenuParentController::class);
     });
 
-    Route::resource('menu-parents', MenuParentController::class);
 
-    Route::resource('roles', RoleController::class);
+    // Route::resource('roles', RoleController::class);
 
-    Route::resource('permissions', PermissionController::class);
+    // Route::resource('permissions', PermissionController::class);
 });
