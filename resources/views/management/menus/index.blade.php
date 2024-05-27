@@ -146,18 +146,31 @@
                             <div class="modal-body">
                                 <div class="mb-3">
                                     <div class="form-group">
-                                        <label for="categoryName" class="col-form-label">Category Name <span
+                                        <label for="menuName" class="col-form-label">Menu Name <span
                                                 class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" name="category_name"
-                                            placeholder="Enter category name..." id="categoryName">
+                                        <input type="text" class="form-control" name="menu_name"
+                                            placeholder="Enter menu name..." id="menuName"
+                                            onchange="getMenuNameValue();">
                                     </div>
                                 </div>
                                 <div class="mb-3">
                                     <div class="form-group">
-                                        <label for="menuName" class="col-form-label">Menu Name <span
+                                        <label for="menu" class="col-form-label">Menu Category <span
                                                 class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" name="menu_name"
-                                            placeholder="Enter menu name..." id="menuName">
+                                        <div class="select2-container" id="selectContainer">
+                                            <select class="form-select select2" id="menuType"
+                                                onchange="getRouteName();">
+                                                <option value="category">Menu Category</option>
+                                                <option value="page">Menu Page</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="form-group">
+                                        <label for="categoryName" class="col-form-label">Category Name</label>
+                                        <input type="text" class="form-control" name="category_name"
+                                            placeholder="Enter category name..." id="categoryName">
                                     </div>
                                 </div>
                                 <div class="mb-3">
@@ -185,4 +198,50 @@
             </div>
         </div>
     </section>
+    <script>
+        $(document).ready(function() {
+            getMenuNameValue();
+            getRouteName();
+        });
+
+        function getMenuNameValue() {
+            var menuName = $('#menuName').val();
+
+            if (menuName === '') {
+                $('#menuType').prop('disabled', true);
+                $('#categoryName').prop('disabled', true);
+                $('#iconName').prop('disabled', true);
+                $('#routeName').prop('disabled', true);
+            } else {
+                $('#menuType').prop('disabled', false);
+                $('#categoryName').prop('disabled', false);
+                $('#iconName').prop('disabled', false);
+                $('#routeName').prop('disabled', false);
+            }
+        }
+
+        function getRouteName() {
+            var menuType = $('#menuType').val();
+
+            if (menuType === 'category') {
+                $('#routeName').val('');
+                $('#routeName').prop('disabled', true);
+            } else {
+                $('#routeName').prop('disabled', false);
+                $('#categoryName').prop('disabled', true);
+
+                // Mengambil nilai dari menuName
+                let menuNameValue = $('#menuName').val();
+
+                // Pastikan nilai tidak kosong atau undefined sebelum mengakses metode toLowerCase
+                if (menuNameValue) {
+                    // Mengubah nilai ke huruf kecil semua dan menggantikan spasi dengan tanda hubung
+                    let routeNameValue = menuNameValue.toLowerCase().replace(/\s+/g, '-');
+
+                    // Menetapkan nilai ini ke routeName
+                    $('#routeName').val(routeNameValue);
+                }
+            }
+        }
+    </script>
 @endsection
