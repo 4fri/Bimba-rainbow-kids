@@ -41,6 +41,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('roles', RoleController::class);
 
     Route::resource('permissions', PermissionController::class);
-
-    Route::get('/send-telegram-message', [TelegramMessageControlle::class, 'sendMessage']);
 });

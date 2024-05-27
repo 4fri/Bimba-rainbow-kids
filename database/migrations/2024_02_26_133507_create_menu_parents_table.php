@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('menu_id');
             $table->string('route_name', 50)->nullable();
             $table->string('menu_name', 50);
-            $table->integer('child_id')->nullable();
+            $table->integer('child_id')->nullable()->comment('ambil dari menu parent id');
             $table->timestamps();
 
             $table->foreign('menu_id')
