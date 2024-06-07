@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Hashids\Hashids;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -46,9 +47,17 @@ class User extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed',
     ];
 
+    // get hash id per model
+    protected $appends = ['userHashId'];
+
     public function getRoleName()
     {
         // Gantilah 'name' dengan nama kolom yang sesuai di tabel pengguna
         return $this->attributes['name'];
+    }
+
+    public function getHashidAttribute()
+    {
+        return Hashids::encode($this->id);
     }
 }

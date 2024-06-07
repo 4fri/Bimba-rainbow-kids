@@ -7,6 +7,7 @@ use App\Models\Menu;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Vinkla\Hashids\Facades\Hashids;
 
 class MenuController extends Controller
 {
@@ -37,12 +38,12 @@ class MenuController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Menu $menu)
+    public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'category_name' => ['nullable', 'unique:menus,category_name'],
             'menu_name' => ['required', 'unique:menus,menu_name'],
-            'icon_name' => ['required'],
+            'menu_icon' => ['required'],
         ]);
 
         if ($validator->fails()) {
@@ -51,7 +52,7 @@ class MenuController extends Controller
         }
 
         try {
-            $menu->create($request->all());
+            Menu::create($request->all());
 
             Toastr::success('Menu created successfully', 'Congratulations');
 
@@ -74,9 +75,13 @@ class MenuController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $hashId)
     {
-        //
+        $decoded = Hashids::decode($hashId);
+        $id = $decoded ? $decoded[0] : null;
+
+        $menu = Menu::findOrFail($id);
+        return view('management.menus.edit', compact('menu'));
     }
 
     /**

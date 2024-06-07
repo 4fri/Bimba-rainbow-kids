@@ -3,12 +3,13 @@
 namespace Database\Seeders;
 
 use App\Models\Menu;
-use App\Models\MenuParent;
 use App\Models\User;
+use App\Models\MenuParent;
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
 
 class DatabaseSeeder extends Seeder
 {
@@ -67,7 +68,7 @@ class DatabaseSeeder extends Seeder
 
         // Membuat menu
         $menus = Menu::create([
-            'category_name' => 'Menu & Access',
+            'category_name' => 'Menu',
             'menu_name' => 'Management',
             'menu_icon' => 'portfolio-grid-1'
         ]);

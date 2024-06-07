@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('menu_parents', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('menu_id');
-            $table->string('route_name', 50)->nullable();
+            $table->unsignedBigInteger('menu_id'); // Ensure this is of type uuid
+            $table->string('route_name', 50)->nullable()->unique();
             $table->string('menu_name', 50);
             $table->integer('child_id')->nullable()->comment('ambil dari menu parent id');
             $table->timestamps();
 
             $table->foreign('menu_id')
-                ->on('menus')
                 ->references('id')
+                ->on('menus')
                 ->cascadeOnDelete();
         });
     }

@@ -58,22 +58,23 @@
                                             <td>{{ $menu->menu_icon ?? 'Tidak ada' }}</td>
                                             <td class="text-end">
                                                 <a class="btn btn-outline-info btn-sm" title="Edit"
-                                                    href="{{ route('menus.edit', $menu->id) }}">
+                                                    href="{{ route('menus.edit', ['menu' => $menu->menuHashId]) }}">
                                                     <i class="fa fa-pencil-alt"></i>
                                                 </a>
                                                 <button class="btn btn-outline-danger btn-sm" title="Delete"
-                                                    data-bs-toggle="modal" data-bs-target="#deleteModal{{ $menu->id }}"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#deleteModal{{ $menu->menuHashId }}"
                                                     onclick="setDeleteForm();">
                                                     <i class="fa fa-trash-alt"></i>
                                                 </button>
 
                                                 <!-- Modal Delete -->
-                                                <div class="modal fade" id="deleteModal{{ $menu->id }}" tabindex="-1"
-                                                    aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                                <div class="modal fade" id="deleteModal{{ $menu->menuHashId }}"
+                                                    tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <form method="POST"
-                                                                action="{{ route('menus.destroy', $menu->id) }}">
+                                                                action="{{ route('menus.destroy', ['menu' => $menu->menuHashId]) }}">
                                                                 @csrf
                                                                 @method('DELETE')
 
@@ -171,10 +172,10 @@
                                 </div> --}}
                                 <div class="mb-3">
                                     <div class="form-group">
-                                        <label for="iconName" class="col-form-label">Icon Name <span
+                                        <label for="menuIcon" class="col-form-label">Icon Name <span
                                                 class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" name="icon_name"
-                                            placeholder="Example: portfolio-grid-1" id="iconName">
+                                        <input type="text" class="form-control" name="menu_icon"
+                                            placeholder="Example: portfolio-grid-1" id="menuIcon">
                                     </div>
                                 </div>
                             </div>
