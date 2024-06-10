@@ -18,9 +18,4 @@ class Menu extends Model
     {
         return Hashids::encode($this->id);
     }
-
-    public function menuParent()
-    {
-        return $this->hasMany(MenuParent::class, 'menu_id', 'id');
-    }
 }
