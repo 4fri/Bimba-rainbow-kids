@@ -92,19 +92,13 @@ class MenuController extends Controller
         $decoded = Hashids::decode($hashId);
         $id = $decoded ? $decoded[0] : null;
 
-        $validator = Validator::make($request->all(), [
+        $data = $request->validate([
             'category_name' => ['nullable'],
             'menu_name' => ['required'],
             'menu_icon' => ['required'],
         ]);
 
-        if ($validator->fails()) {
-            Toastr::error($validator->errors()->first(), 'Failed');
-            return back();
-        }
-
         try {
-            $data = $request->only(['category_name', 'menu_name', 'menu_icon']);
 
             Menu::where('id', $id)->update($data);
 
