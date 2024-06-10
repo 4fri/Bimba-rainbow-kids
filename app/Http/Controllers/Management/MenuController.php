@@ -81,22 +81,58 @@ class MenuController extends Controller
         $id = $decoded ? $decoded[0] : null;
 
         $menu = Menu::findOrFail($id);
-        return view('management.menus.edit', compact('menu'));
+        return view('management.menus.edit', compact('menu', 'hashId'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $hashId)
     {
-        //
+        $decoded = Hashids::decode($hashId);
+        $id = $decoded ? $decoded[0] : null;
+
+        $validator = Validator::make($request->all(), [
+            'category_name' => ['nullable'],
+            'menu_name' => ['required'],
+            'menu_icon' => ['required'],
+        ]);
+
+        if ($validator->fails()) {
+            Toastr::error($validator->errors()->first(), 'Failed');
+            return back();
+        }
+
+        try {
+            $data = $request->only(['category_name', 'menu_name', 'menu_icon']);
+
+            Menu::where('id', $id)->update($data);
+
+            Toastr::success('Menu updated successfully', 'Congratulations');
+
+            return redirect()->route('menus.index');
+        } catch (\Exception $e) {
+            Toastr::error($e->getMessage(), 'Failed!');
+
+            return back();
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $hashId)
     {
-        //
+        $decoded = Hashids::decode($hashId);
+        $id = $decoded ? $decoded[0] : null;
+
+        try {
+            Menu::where('id', $id)->delete();
+            Toastr::success('Menu deleted successfully', 'Congratulations');
+            return back();
+        } catch (\Exception $e) {
+            Toastr::error($e->getMessage(), 'Failed!');
+            return back();
+        }
     }
 }

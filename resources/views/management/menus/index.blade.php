@@ -42,6 +42,7 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
+                                        <th>Category Name</th>
                                         <th>Menu Name</th>
                                         <th>Icon Menu</th>
                                         <th class="text-end">Action</th>
@@ -54,6 +55,7 @@
                                     @foreach ($menus as $menu)
                                         <tr>
                                             <th scope="row">{{ $count++ }}</th>
+                                            <td>{{ $menu->category_name ?? 'Tidak ada' }}</td>
                                             <td>{{ $menu->menu_name ?? 'Tidak ada' }}</td>
                                             <td>{{ $menu->menu_icon ?? 'Tidak ada' }}</td>
                                             <td class="text-end">
