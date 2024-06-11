@@ -45,7 +45,7 @@
                                         <th>Menus</th>
                                         <th>Menu Parents</th>
                                         <th>Route Name</th>
-                                        <th>Menu Child</th>
+                                        <th class="text-center">Menu Child</th>
                                         <th class="text-end">Action</th>
                                     </tr>
                                 </thead>
@@ -59,25 +59,26 @@
                                             <td>{{ $parent->menus->menu_name }}</td>
                                             <td>{{ $parent->menu_name }}</td>
                                             <td>{{ $parent->route_name }}</td>
-                                            <td>{{ $parent->child->menu_name ?? '' }}</td>
+                                            <td class="text-center">{{ $parent->child->menu_name ?? '-' }}</td>
                                             <td class="text-end">
                                                 <a class="btn btn-outline-info btn-sm" title="Edit"
-                                                    href="{{ route('menu-parents.edit', $parent->id) }}">
+                                                    href="{{ route('menu-parents.edit', $parent->menuParentHashId) }}">
                                                     <i class="fa fa-pencil-alt"></i>
                                                 </a>
                                                 <button class="btn btn-outline-danger btn-sm" title="Delete"
-                                                    data-bs-toggle="modal" data-bs-target="#deleteModal{{ $parent->id }}"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#deleteModal{{ $parent->menuParentHashId }}"
                                                     onclick="setDeleteForm();">
                                                     <i class="fa fa-trash-alt"></i>
                                                 </button>
 
                                                 <!-- Modal Delete -->
-                                                <div class="modal fade" id="deleteModal{{ $parent->id }}" tabindex="-1"
-                                                    aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                                <div class="modal fade" id="deleteModal{{ $parent->menuParentHashId }}"
+                                                    tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <form method="POST"
-                                                                action="{{ route('menu-parents.destroy', $parent->id) }}">
+                                                                action="{{ route('menu-parents.destroy', $parent->menuParentHashId) }}">
                                                                 @csrf
                                                                 @method('DELETE')
 
@@ -183,7 +184,7 @@
                                         <div class="select2-container" id="selectContainer">
                                             <select class="form-select select2" name="child">
                                                 <option value="" hidden>Select menu...</option>
-                                                @foreach ($select_parents as $child)
+                                                @foreach ($select_childs as $child)
                                                     <option value="{{ $child->id }}">{{ $child->menu_name }}
                                                     </option>
                                                 @endforeach

@@ -21,6 +21,7 @@
                 <p class="h1 m-0">KIDS</p>
             </a>
         </div>
+
         <!-- Sidebar Navigation Menus-->
         @foreach ($menus as $menu)
             @if ($menu->category_name !== null)
@@ -30,31 +31,51 @@
             @endif
 
             @php
-                // if ($menu->route_name === null) {
                 $dropdownHref = '#menuSidebar' . $menu->id;
                 $dropDownId = 'menuSidebar' . $menu->id;
+
+                // Cek apakah menu aktif
+                $isActive =
+                    $menu->route_name !== null &&
+                    Route::has($menu->route_name) &&
+                    Route::currentRouteName() == $menu->route_name;
+                // Cek apakah salah satu submenu aktif
+                $isDropdownActive =
+                    $menu->route_name === null &&
+                    collect($menu->menuParent)->contains(function ($parent) {
+                        return Route::has($parent->route_name) && Route::currentRouteName() == $parent->route_name;
+                    });
             @endphp
 
             <ul class="list-unstyled">
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ $dropdownHref }}" data-bs-toggle="collapse">
+                <li class="sidebar-item {{ $isActive || $isDropdownActive ? 'active' : '' }}">
+                    <a class="sidebar-link"
+                        href="{{ $menu->route_name !== null && Route::has($menu->route_name) ? route($menu->route_name) : $dropdownHref }}"
+                        data-bs-toggle="{{ $menu->route_name === null ? 'collapse' : '' }}"
+                        aria-expanded="{{ $isDropdownActive ? 'true' : 'false' }}"
+                        style="{{ $isActive ? 'color: orange;' : '' }}">
                         <svg class="svg-icon svg-icon-sm svg-icon-heavy me-2">
                             <use xlink:href="#{{ $menu->menu_icon }}"> </use>
                         </svg>{{ $menu->menu_name }}
                     </a>
 
                     @if ($menu->route_name === null)
-                        <ul class="collapse list-unstyled" id="{{ $dropDownId }}">
+                        <ul class="collapse list-unstyled {{ $isDropdownActive ? 'show' : '' }}"
+                            id="{{ $dropDownId }}">
                             @foreach ($menu->menuParent as $parent)
-                                <li><a class="sidebar-link"
-                                        href="{{ route($parent->route_name) }}">{{ $parent->menu_name }}</a></li>
+                                <li>
+                                    <a class="sidebar-link"
+                                        href="{{ Route::has($parent->route_name) ? route($parent->route_name) : '#' }}"
+                                        style="{{ Route::currentRouteName() == $parent->route_name ? 'color: orange;' : '' }}">
+                                        {{ $parent->menu_name }}
+                                    </a>
+                                </li>
                             @endforeach
                         </ul>
                     @endif
                 </li>
             </ul>
         @endforeach
-
 
         {{-- <span class="text-uppercase text-gray-500 text-sm fw-bold letter-spacing-0 mx-lg-2 heading">
             Second menu
