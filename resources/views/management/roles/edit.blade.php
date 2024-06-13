@@ -23,7 +23,7 @@
                     </div>
                     <div class="card-body">
                         <!-- Form untuk mengupdate data -->
-                        <form action="{{ route('roles.update', $role->id) }}" method="POST">
+                        <form action="{{ route('roles.update', $hashId) }}" method="POST">
                             @csrf
                             @method('PUT')
 

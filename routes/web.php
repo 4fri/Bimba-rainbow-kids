@@ -30,10 +30,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware('role:super admin|admin')->group(function () {
         Route::resource('menus', MenuController::class);
         Route::resource('menu-parents', MenuParentController::class);
+        Route::resource('roles', RoleController::class);
+        Route::resource('permissions', PermissionController::class);
     });
-
-
-    Route::resource('roles', RoleController::class);
-
-    Route::resource('permissions', PermissionController::class);
 });

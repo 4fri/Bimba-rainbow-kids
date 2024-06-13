@@ -58,22 +58,23 @@
                                             <td>{{ $role->guard_name }}</td>
                                             <td class="text-end">
                                                 <a class="btn btn-outline-info btn-sm" title="Edit"
-                                                    href="{{ route('roles.edit', $role->id) }}">
+                                                    href="{{ route('roles.edit', $role->roleHasId) }}">
                                                     <i class="fa fa-pencil-alt"></i>
                                                 </a>
                                                 <button class="btn btn-outline-danger btn-sm" title="Delete"
-                                                    data-bs-toggle="modal" data-bs-target="#deleteModal{{ $role->id }}"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#deleteModal{{ $role->roleHasId }}"
                                                     onclick="setDeleteForm();">
                                                     <i class="fa fa-trash-alt"></i>
                                                 </button>
 
                                                 <!-- Modal Delete -->
-                                                <div class="modal fade" id="deleteModal{{ $role->id }}" tabindex="-1"
-                                                    aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                                <div class="modal fade" id="deleteModal{{ $role->roleHasId }}"
+                                                    tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <form method="POST"
-                                                                action="{{ route('roles.destroy', $role->id) }}">
+                                                                action="{{ route('roles.destroy', $role->roleHasId) }}">
                                                                 @csrf
                                                                 @method('DELETE')
 
@@ -98,6 +99,7 @@
                                                     </div>
                                                 </div>
                                             </td>
+
                                         </tr>
                                     @endforeach
                                 </tbody>

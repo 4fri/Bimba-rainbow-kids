@@ -3,23 +3,15 @@
 namespace App\Http\Controllers\Management;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
+use Vinkla\Hashids\Facades\Hashids;
 
 class RoleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    // public function __construct()
-    // {
-    //     $this->middleware(['role_or_permission:admin|roles-index|roles-edit|roles-update'])->only(['index', 'edit', 'update']);
-    // }
-
     /**
      * Display a listing of the resource.
      */
@@ -46,7 +38,7 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Role $role)
+    public function store(Request $request)
     {
         $user = Auth::user(); // Mengambil objek pengguna yang saat ini masuk
         $isAdmin = $user->hasRole('admin'); // Memeriksa apakah pengguna memiliki peran 'admin'
@@ -66,7 +58,7 @@ class RoleController extends Controller
         }
 
         try {
-            $role->create($request->all());
+            Role::create($request->all());
 
             Toastr::success('Role created successfully', 'Congratulations');
 
@@ -89,22 +81,32 @@ class RoleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Role $role)
+    public function edit(string $hashId)
     {
-        return view('management.roles.edit', ['role' => $role]);
+        $decoded = Hashids::decode($hashId);
+        $id = $decoded ? $decoded[0] : null;
+
+        $role = Role::findOrFail($id);
+
+        return view('management.roles.edit', compact('role', 'hashId'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Role $role)
+    public function update(Request $request, string $hashId)
     {
+        $decoded = Hashids::decode($hashId);
+        $id = $decoded ? $decoded[0] : null;
+
         $request->validate([
             'name' => ['required', 'unique:roles,name'],
         ]);
 
         try {
-            $role->update($request->all());
+            Role::where('id', $id)->update([
+                'name' => $request->name
+            ]);
 
             Toastr::success('Role updated successfully', 'Congratulations');
 
@@ -119,8 +121,11 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Role $role)
+    public function destroy(string $hashId)
     {
+        $decoded = Hashids::decode($hashId);
+        $id = $decoded ? $decoded[0] : null;
+
         $user = Auth::user(); // Mengambil objek pengguna yang saat ini masuk
         $isAdmin = $user->hasRole('admin'); // Memeriksa apakah pengguna memiliki peran 'admin'
 
@@ -130,7 +135,7 @@ class RoleController extends Controller
         }
 
         try {
-            $role->delete();
+            Role::where('id', $id)->delete();
 
             Toastr::success('Role deleted successfully', 'Congratulations');
 
