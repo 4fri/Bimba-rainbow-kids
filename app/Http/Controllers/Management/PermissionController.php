@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Vinkla\Hashids\Facades\Hashids;
 
 class PermissionController extends Controller
 {
@@ -88,22 +89,32 @@ class PermissionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Permission $permission)
+    public function edit(string $hashId)
     {
-        return view('management.permissions.edit', ['permission' => $permission]);
+        $decoded = Hashids::decode($hashId);
+        $id = $decoded ? $decoded[0] : null;
+
+        $permission = Permission::findOrFail($id);
+
+        return view('management.permissions.edit', compact('permission', 'hashId'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Permission $permission)
+    public function update(Request $request, string $hashId)
     {
+        $decoded = Hashids::decode($hashId);
+        $id = $decoded ? $decoded[0] : null;
+
         $request->validate([
             'name' => ['required', 'unique:permissions,name'],
         ]);
 
         try {
-            $permission->update($request->all());
+            Permission::where('id', $id)->update([
+                'name' => $request->name
+            ]);
 
             Toastr::success('Permission updated successfully', 'Congratulations');
 
@@ -118,10 +129,13 @@ class PermissionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Permission $permission)
+    public function destroy(string $hashId)
     {
+        $decoded = Hashids::decode($hashId);
+        $id = $decoded ? $decoded[0] : null;
+
         try {
-            $permission->delete();
+            Permission::where('id', $id)->delete();
 
             Toastr::success('Permission deleted successfully', 'Congratulations');
 
