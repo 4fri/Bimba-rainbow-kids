@@ -2,7 +2,6 @@
     use App\Models\Menu;
 
     $menus = Menu::with('menuParent')->orderBy('id', 'ASC')->get();
-    // dd($menus);
 @endphp
 
 <!-- Side Navbar -->

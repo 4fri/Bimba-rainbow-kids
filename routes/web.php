@@ -4,6 +4,8 @@ use App\Http\Controllers\Management\MenuController;
 use App\Http\Controllers\Management\MenuParentController;
 use App\Http\Controllers\Management\PermissionController;
 use App\Http\Controllers\Management\RoleController;
+use App\Http\Controllers\Management\UserController;
+use App\Http\Controllers\MasterData\DtJobController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -32,5 +34,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('menu-parents', MenuParentController::class);
         Route::resource('roles', RoleController::class);
         Route::resource('permissions', PermissionController::class);
+        Route::resource('users', UserController::class);
+        Route::resource('jobs', DtJobController::class);
     });
 });
